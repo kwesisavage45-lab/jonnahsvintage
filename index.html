@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonnah's Vintage | Timeless Apparel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Bebas+Neue&family=Archivo+Black&family=Playfair+Display+SC:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #f2f2f2;
+            --warm:  #dddddd;
+            --dark:  #0a0a0a;
+            --muted: #777777;
+            --accent:#0a0a0a;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #ffffff;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* Pages */
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; animation: fadeIn 0.45s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Nav */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.1rem 2.5rem;
+        }
+
+        .nav-brand {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.15rem;
+            font-style: normal;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--dark);
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .nav-brand .brand-apostrophe-s {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.35rem;
+            letter-spacing: 0;
+            vertical-align: baseline;
+            color: #888;
+        }
+
+        .nav-brand .brand-vintage {
+            display: block;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 0.48rem;
+            font-weight: 900;
+            letter-spacing: 0.42em;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 0.2s;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--dark);
+            transition: width 0.25s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .bag-btn {
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark);
+            font-family: 'Jost', sans-serif;
+        }
+
+        /* Mobile menu */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: var(--dark);
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .top-nav { padding: 1rem 1.25rem; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+        }
+
+        /* Mobile sidebar */
+        .mobile-nav {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 200;
+            transform: translateX(100%);
+            transition: transform 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .mobile-nav.open { transform: translateX(0); }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            background: none; border: none;
+            font-size: 1.5rem; cursor: pointer;
+            color: #ffffff;
+        }
+
+        .mobile-nav .nav-link {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            color: #ffffff !important;
+        }
+        .mobile-nav .nav-link::after { background: #ffffff; }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: 0;
+            height: 100%;
+            width: 100%; max-width: 400px;
+            background: #ffffff;
+            z-index: 210;
+            box-shadow: -4px 0 30px rgba(0,0,0,0.08);
+            transform: translateX(100%);
+            transition: transform 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open { transform: translateX(0); }
+
+        /* ======= HOME PAGE ======= */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: calc(100vh - 64px);
+        }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 4rem;
+            background: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text { padding: 3rem 2rem; order: 2; }
+        }
+
+        .hero-eyebrow {
+            font-size: 0.6rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 0.82rem;
+            line-height: 1.8;
+            color: var(--muted);
+            max-width: 340px;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            background: var(--dark);
+            color: var(--cream);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid var(--dark);
+            transition: all 0.25s;
+            width: max-content;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--dark);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            background: transparent;
+            color: var(--dark);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid var(--dark);
+            transition: all 0.25s;
+            width: max-content;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .btn-outline:hover {
+            background: var(--dark);
+            color: var(--cream);
+        }
+
+        .hero-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .hero-image:hover img { transform: scale(1.04); }
+
+        .hero-image-overlay {
+            position: absolute;
+            bottom: 2rem; left: 2rem;
+            background: rgba(255,255,255,0.95);
+            padding: 1rem 1.5rem;
+            backdrop-filter: blur(6px);
+        }
+
+        /* Featured strip */
+        .strip {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            padding: 1rem 2.5rem;
+            background: var(--dark);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .strip-item {
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm);
+            flex-shrink: 0;
+        }
+
+        .strip-dot {
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* ======= COLLECTION PAGE ======= */
+        .page-header {
+            padding: 4rem 2.5rem 2.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .page-header-inner {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            color: var(--dark);
+        }
+
+        .page-subtitle {
+            font-size: 0.72rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .products-grid { grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.5rem 1rem; }
+            .page-header { padding: 2.5rem 1.25rem 1.5rem; }
+        }
+
+        .product-card { position: relative; }
+
+        .product-img-wrap {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            background: #e8e8e8;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .product-img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+
+        .product-badge {
+            position: absolute;
+            top: 0.75rem; left: 0.75rem;
+            background: #0a0a0a;
+            color: #ffffff;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+        }
+
+        .product-name {
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 0.85rem;
+        }
+
+        .product-controls { display: flex; flex-direction: column; gap: 0.5rem; }
+
+        select {
+            width: 100%;
+            border: 1px solid var(--warm);
+            background: white;
+            font-size: 0.6rem;
+            padding: 0.55rem 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            outline: none;
+            font-family: 'Jost', sans-serif;
+            color: var(--dark);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a6f65' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 0.9em;
+            padding-right: 2rem;
+        }
+
+        select:focus { border-color: #0a0a0a; }
+
+        .add-btn {
+            width: 100%;
+            background: var(--dark);
+            color: var(--cream);
+            border: 1px solid var(--dark);
+            padding: 0.65rem;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .add-btn:hover {
+            background: #333333;
+            border-color: #333333;
+        }
+
+        /* ======= ABOUT PAGE ======= */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: calc(100vh - 64px);
+        }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+            min-height: 60vh;
+        }
+
+        .about-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .about-content {
+            padding: 5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .about-content { padding: 3rem 1.5rem; }
+        }
+
+        .about-eyebrow {
+            font-size: 0.58rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .about-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+
+        .about-body {
+            font-size: 0.85rem;
+            line-height: 1.9;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--dark);
+            border-left: 2px solid #0a0a0a;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            padding: 1.25rem;
+            background: #ebebeb;
+        }
+
+        .value-title {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ======= CONTACT PAGE ======= */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            min-height: calc(100vh - 64px);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        .contact-info {
+            padding: 5rem 4rem;
+            background: var(--dark);
+            color: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .contact-info { padding: 3rem 1.5rem; }
+        }
+
+        .contact-info-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            color: var(--cream);
+        }
+
+        .contact-info-item {
+            margin-bottom: 2rem;
+        }
+
+        .contact-info-label {
+            font-size: 0.55rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-info-value {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+        }
+
+        .contact-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--cream);
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .contact-form-wrap {
+            padding: 5rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form-wrap { padding: 3rem 1.5rem; }
+        }
+
+        .form-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            border: 1px solid var(--warm);
+            background: white;
+            padding: 0.8rem 1rem;
+            font-size: 0.85rem;
+            font-family: 'Jost', sans-serif;
+            color: var(--dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--dark);
+        }
+
+        .form-textarea { min-height: 120px; resize: vertical; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        /* ======= FOOTER ======= */
+        footer {
+            background: #000000;
+            color: var(--cream);
+            padding: 3.5rem 2.5rem 2rem;
+        }
+
+        .footer-inner {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.8;
+            max-width: 260px;
+        }
+
+        .footer-col-title {
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-link {
+            display: block;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin-bottom: 0.6rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover { color: var(--cream); }
+
+        .footer-socials {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .footer-social-icon:hover {
+            border-color: var(--cream);
+            color: var(--cream);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+        }
+
+        /* ======= ADMIN PANEL ======= */
+        .admin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .admin-overlay.open { display: flex; }
+
+        .admin-modal {
+            background: white;
+            width: 100%;
+            max-width: 820px;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+            background: var(--dark);
+            color: var(--cream);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .admin-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        .admin-close {
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .admin-close:hover { opacity: 1; }
+
+        .admin-body { padding: 2rem; }
+
+        .admin-section-title {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .admin-form-grid { grid-template-columns: 1fr; }
+        }
+
+        .admin-form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .admin-form-group.full { grid-column: 1 / -1; }
+
+        .admin-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .admin-input, .admin-textarea {
+            border: 1px solid var(--warm);
+            padding: 0.7rem 0.85rem;
+            font-size: 0.85rem;
+            font-family: 'Jost', sans-serif;
+            color: var(--dark);
+            outline: none;
+            transition: border-color 0.2s;
+            background: white;
+            width: 100%;
+        }
+        .admin-input:focus, .admin-textarea:focus { border-color: var(--dark); }
+        .admin-textarea { min-height: 80px; resize: vertical; }
+
+        /* Size checkboxes */
+        .size-checks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .size-check-label {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            cursor: pointer;
+        }
+
+        .size-check-label input[type="checkbox"] { display: none; }
+
+        .size-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 36px;
+            border: 1px solid var(--warm);
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.15s;
+            padding: 0 0.5rem;
+            color: var(--muted);
+            user-select: none;
+        }
+
+        .size-check-label input:checked + .size-box {
+            background: var(--dark);
+            color: var(--cream);
+            border-color: var(--dark);
+        }
+
+        /* Image preview */
+        .img-preview-strip {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .img-thumb {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border: 1px solid var(--warm);
+        }
+
+        .img-thumb-err {
+            width: 64px;
+            height: 64px;
+            background: var(--warm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            color: var(--muted);
+            text-align: center;
+            border: 1px solid var(--warm);
+        }
+
+        /* Admin product list */
+        .admin-product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .admin-product-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+            border: 1px solid var(--warm);
+            transition: border-color 0.2s;
+        }
+
+        .admin-product-row:hover { border-color: var(--dark); }
+
+        .admin-product-thumb {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #ebebeb;
+        }
+
+        .admin-product-info { flex: 1; min-width: 0; }
+
+        .admin-product-name {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-product-meta {
+            font-size: 0.62rem;
+            color: var(--muted);
+        }
+
+        .admin-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+
+        .admin-btn-edit {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.58rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: 1px solid var(--dark);
+            background: transparent;
+            color: var(--dark);
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+        .admin-btn-edit:hover { background: var(--dark); color: var(--cream); }
+
+        .admin-btn-delete {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.58rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+        .admin-btn-delete:hover { background: var(--accent); color: white; }
+
+        .admin-btn-save {
+            padding: 0.85rem 2rem;
+            background: var(--dark);
+            color: var(--cream);
+            border: 1px solid var(--dark);
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+        .admin-btn-save:hover { background: var(--accent); border-color: var(--accent); }
+
+        .admin-btn-cancel {
+            padding: 0.85rem 1.5rem;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--warm);
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+        .admin-btn-cancel:hover { border-color: var(--dark); color: var(--dark); }
+
+        /* Login */
+        .admin-login {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .admin-login-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-login-sub {
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .admin-passkey-wrap {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 320px;
+            margin: 0 auto 1rem;
+        }
+
+        .admin-passkey-wrap input {
+            flex: 1;
+            border: 1px solid var(--warm);
+            padding: 0.8rem 1rem;
+            font-size: 0.85rem;
+            font-family: 'Jost', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .admin-passkey-wrap input:focus { border-color: var(--dark); }
+
+        .admin-login-err {
+            font-size: 0.65rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            min-height: 1.2em;
+        }
+
+        .admin-divider {
+            border: none;
+            border-top: 1px solid var(--warm);
+            margin: 2rem 0;
+        }
+
+        /* Full product card preview in admin */
+        .admin-preview-card {
+            border: 1px solid var(--warm);
+            padding: 1rem;
+            max-width: 240px;
+        }
+
+        .admin-preview-img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            background: var(--warm);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .admin-preview-imgs {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .admin-preview-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--warm);
+            border: 1px solid var(--muted);
+            cursor: pointer;
+        }
+
+        .admin-preview-dot.active { background: var(--dark); border-color: var(--dark); }
+
+        /* Cart */
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-title {
+            font-size: 0.62rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .cart-close {
+            background: none; border: none;
+            font-size: 1.2rem; cursor: pointer;
+            color: var(--dark);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-empty {
+            font-size: 0.65rem;
+            color: var(--muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-item-name {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .cart-item-details {
+            font-size: 0.65rem;
+            color: var(--muted);
+        }
+
+        .cart-remove {
+            font-size: 0.6rem;
+            color: var(--muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+        }
+
+        .cart-remove:hover { color: var(--accent); }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--warm);
+            background: #f5f5f5;
+        }
+
+        .order-method-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-method-btns {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-btn {
+            flex: 1;
+            padding: 0.55rem;
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 1px solid var(--dark);
+            background: transparent;
+            color: var(--dark);
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .method-btn.selected {
+            background: var(--dark);
+            color: var(--cream);
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .cart-total-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .cart-total-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .checkout-btn:hover { background: #1ebe5d; }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 55;
+            display: none;
+        }
+
+        .overlay.show { display: block; }
+
+        /* Success toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            background: var(--dark);
+            color: var(--cream);
+            padding: 1rem 1.5rem;
+            font-size: 0.62rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            z-index: 100;
+            transform: translateY(120%);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Form success */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .form-success.show { display: block; }
+        .form-success .check {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .form-success p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBjB9pr1kRwuTllSRTw9YH-mpNp3O556ek",
+            authDomain: "vintage-2b3fe.firebaseapp.com",
+            projectId: "vintage-2b3fe",
+            storageBucket: "vintage-2b3fe.firebasestorage.app",
+            messagingSenderId: "905527977757",
+            appId: "1:905527977757:web:385114b7fb4b97000223f4",
+            measurementId: "G-PCE315YW5K"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // Expose db and Firestore helpers to global scope
+        window._db = db;
+        window._firestoreAddDoc = addDoc;
+        window._firestoreCollection = collection;
+        window._firestoreTimestamp = serverTimestamp;
+        window._firestoreGetDocs = getDocs;
+        window._firestoreDoc = doc;
+        window._firestoreSetDoc = setDoc;
+        window._firestoreDeleteDoc = deleteDoc;
+        window._firestoreOnSnapshot = onSnapshot;
+        // Signal that Firebase is ready
+        window._firebaseReady = true;
+        if (typeof window._initProductListener === 'function') {
+            window._initProductListener();
+        }
+    </script>
+</head>
+<body>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+<!-- Navigation -->
+<nav class="top-nav">
+    <div class="nav-brand" id="nav-brand" onclick="showPage('home')" ondblclick="openAdminPanel()" title="">JONNAHS<span class="brand-apostrophe-s"></span><span class="brand-vintage">Vintage</span></div>
+
+    <div class="nav-links">
+        <span class="nav-link" id="nav-collection" onclick="showPage('collection')">Collection</span>
+        <span class="nav-link" id="nav-about" onclick="showPage('about')">About</span>
+        <span class="nav-link" id="nav-contact" onclick="showPage('contact')">Contact</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:1.25rem;">
+        <button class="bag-btn" onclick="toggleCart()">Bag (<span id="cart-count">0</span>)</button>
+        <button class="hamburger" onclick="openMobileNav()">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+    <span class="nav-link" onclick="showPage('home');closeMobileNav()">Home</span>
+    <span class="nav-link" onclick="showPage('collection');closeMobileNav()">Collection</span>
+    <span class="nav-link" onclick="showPage('about');closeMobileNav()">About</span>
+    <span class="nav-link" onclick="showPage('contact');closeMobileNav()">Contact</span>
+</div>
+
+<!-- Cart Sidebar -->
+<div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <span class="cart-title">Your Bag</span>
+        <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div id="cart-items" class="cart-items">
+        <p class="cart-empty">Your bag is empty</p>
+    </div>
+    <div class="cart-footer">
+        <p class="order-method-label">Order Method</p>
+        <div class="order-method-btns">
+            <button class="method-btn selected" id="btn-delivery" onclick="setOrderMethod('Delivery')">Delivery</button>
+            <button class="method-btn" id="btn-pickup" onclick="setOrderMethod('Pickup')">Pickup</button>
+        </div>
+        <div class="cart-total-row">
+            <span class="cart-total-label">Total</span>
+            <span class="cart-total-amount" id="cart-total">GH₵ 0</span>
+        </div>
+        <button class="checkout-btn" onclick="checkoutWhatsApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Checkout via WhatsApp
+        </button>
+    </div>
+</div>
+
+<!-- ========== HOME PAGE ========== -->
+<div id="page-home" class="page active">
+    <!-- NEW HERO SECTION WITH YOUR UI -->
+    <div class="w-full bg-stone-100 py-2 text-[10px] tracking-[0.2em] text-center uppercase border-b border-stone-200">
+        Sustainable Curated Vintage
+    </div>
+
+    <section class="px-6 mb-12">
+        <div class="relative h-[450px] w-full overflow-hidden rounded-sm shadow-sm">
+            <img src="https://res.cloudinary.com/drmxokidg/image/upload/v1778588986/ulrzjiwxuztzk5gkdlgw.jpg" 
+                 alt="Vintage Boutique Hero" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/20 flex flex-col justify-end p-8">
+                <p class="text-white text-[10px] tracking-[0.4em] uppercase mb-2">The Archive</p>
+                <h2 class="serif text-white text-3xl italic mb-4">Timeless pieces, <br>reimagined.</h2>
+                <button class="w-fit text-white border border-white px-6 py-2 text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition duration-300" onclick="showPage('collection')">
+                    View Catalog
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-8 mb-10 text-center">
+        <h2 class="serif italic text-2xl border-b border-stone-200 pb-4 inline-block px-12">New Arrivals</h2>
+    </section>
+
+    <main class="grid grid-cols-2 gap-x-4 gap-y-12 px-6 mb-24" id="home-featured-grid">
+        <div class="group">
+            <div class="bg-stone-200 aspect-[3/4] overflow-hidden rounded-sm">
+                <img src="https://images.unsplash.com/photo-1550630993-c393bc3306f1?auto=format&fit=crop&q=80&w=400" alt="Vintage Denim" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-4 text-center">
+                <h3 class="text-[10px] uppercase tracking-widest font-medium">Archive Denim Pant</h3>
+                <p class="text-xs text-stone-500 mt-1">$120.00</p>
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="bg-stone-200 aspect-[3/4] overflow-hidden rounded-sm">
+                <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&q=80&w=400" alt="Silk Scarf" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-4 text-center">
+                <h3 class="text-[10px] uppercase tracking-widest font-medium">Silk Printed Scarf</h3>
+                <p class="text-xs text-stone-500 mt-1">$45.00</p>
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="bg-stone-200 aspect-[3/4] overflow-hidden rounded-sm">
+                <img src="https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&q=80&w=400" alt="Leather Jacket" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-4 text-center">
+                <h3 class="text-[10px] uppercase tracking-widest font-medium">90s Leather Blazer</h3>
+                <p class="text-xs text-stone-500 mt-1">$210.00</p>
+            </div>
+        </div>
+
+        <div class="group">
+            <div class="bg-stone-200 aspect-[3/4] overflow-hidden rounded-sm">
+                <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&q=80&w=400" alt="Wool Sweater" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <div class="mt-4 text-center">
+                <h3 class="text-[10px] uppercase tracking-widest font-medium">Hand-knit Sweater</h3>
+                <p class="text-xs text-stone-500 mt-1">$85.00</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">Jonnah's Vintage</div>
+                <p class="footer-tagline">Timeless vintage pieces for the modern soul. Curated with love, worn with intention.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Navigate</p>
+                <span class="footer-link" onclick="showPage('home')">Home</span>
+                <span class="footer-link" onclick="showPage('collection')">Collection</span>
+                <span class="footer-link" onclick="showPage('about')">About</span>
+                <span class="footer-link" onclick="showPage('contact')">Contact</span>
+            </div>
+            <div>
+                <p class="footer-col-title">Follow Us</p>
+                <div class="footer-socials">
+                    <a href="https://facebook.com" target="_blank" class="footer-social-icon" title="Facebook">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" class="footer-social-icon" title="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                    <a href="https://wa.me/233204608631" target="_blank" class="footer-social-icon" title="WhatsApp">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2026 Jonnah's Vintage. All rights reserved.</span>
+            <span class="footer-copy">Made with ♥</span>
+        </div>
+    </footer>
+
+    </div>
+</div>
+
+<!-- Floating Navigation - Global for all pages -->
+<div class="fixed bottom-6 left-0 right-0 flex justify-center items-center z-50 pointer-events-none">
+    <div class="flex gap-6 bg-white rounded-full px-8 py-3 pointer-events-auto" style="box-shadow: 0 4px 24px rgba(0,0,0,0.13);">
+        <button title="Home" onclick="showPage('home')" class="text-stone-400 hover:text-stone-700 transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+        </button>
+        <button title="Shop" onclick="showPage('collection')" class="text-stone-400 hover:text-stone-700 transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        </button>
+        <button title="Contact" onclick="showPage('contact')" class="text-stone-400 hover:text-stone-700 transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+        </button>
+        <button title="About" onclick="showPage('about')" class="text-stone-400 hover:text-stone-700 transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+    </div>
+</div>
+
+<!-- ========== COLLECTION PAGE ========== -->
+<div id="page-collection" class="page">
+    <div class="page-header">
+        <div class="page-header-inner">
+            <div>
+                <p style="font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">AW 2026</p>
+                <h1 class="page-title">The Collection</h1>
+            </div>
+            <p class="page-subtitle">Each piece is personally sourced and inspected — authentic vintage with the quality you deserve.</p>
+        </div>
+    </div>
+
+    <div class="products-grid" id="products-grid">
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">Jonnah's Vintage</div>
+                <p class="footer-tagline">Timeless vintage pieces for the modern soul. Curated with love, worn with intention.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Navigate</p>
+                <span class="footer-link" onclick="showPage('home')">Home</span>
+                <span class="footer-link" onclick="showPage('collection')">Collection</span>
+                <span class="footer-link" onclick="showPage('about')">About</span>
+                <span class="footer-link" onclick="showPage('contact')">Contact</span>
+            </div>
+            <div>
+                <p class="footer-col-title">Follow Us</p>
+                <div class="footer-socials">
+                    <a href="https://facebook.com" target="_blank" class="footer-social-icon" title="Facebook">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" class="footer-social-icon" title="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                    <a href="https://wa.me/233204608631" target="_blank" class="footer-social-icon" title="WhatsApp">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2026 Jonnah's Vintage. All rights reserved.</span>
+            <span class="footer-copy">Made with ♥</span>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== ABOUT PAGE ========== -->
+<div id="page-about" class="page">
+    <div class="about-grid">
+        <div class="about-image">
+            <img src="https://res.cloudinary.com/drmxokidg/image/upload/v1778588964/t5mdba99zhmb71djywku.jpg" alt="About Jonnah's Vintage">
+        </div>
+        <div class="about-content">
+            <p class="about-eyebrow">Our Story</p>
+            <h1 class="about-title">More Than Clothes —<br>It's a <em style="font-style:italic;color:var(--accent);">Legacy</em></h1>
+            <p class="about-body">Jonnah's Vintage was born from a simple belief: the best clothes have already been made. Founded in Accra with a passion for fashion that transcends trends, we source and curate pieces that have stood the test of time.</p>
+            <div class="about-quote">
+                "Every garment tells a story. We find the ones worth wearing again."
+            </div>
+            <p class="about-body">Our pieces are hand-selected from across the globe and brought to you with care, authenticity, and the promise that what you wear matters — not just to you, but to the world.</p>
+
+            <div class="about-values">
+                <div class="value-item">
+                    <p class="value-title">Authenticity</p>
+                    <p class="value-desc">Every piece is verified vintage, sourced with integrity.</p>
+                </div>
+                <div class="value-item">
+                    <p class="value-title">Sustainability</p>
+                    <p class="value-desc">Giving garments new life is our form of activism.</p>
+                </div>
+                <div class="value-item">
+                    <p class="value-title">Quality First</p>
+                    <p class="value-desc">Inspected, cleaned, and ready to wear — always.</p>
+                </div>
+                <div class="value-item">
+                    <p class="value-title">Community</p>
+                    <p class="value-desc">Built in Accra, worn around the world.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">Jonnah's Vintage</div>
+                <p class="footer-tagline">Timeless vintage pieces for the modern soul. Curated with love, worn with intention.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Navigate</p>
+                <span class="footer-link" onclick="showPage('home')">Home</span>
+                <span class="footer-link" onclick="showPage('collection')">Collection</span>
+                <span class="footer-link" onclick="showPage('about')">About</span>
+                <span class="footer-link" onclick="showPage('contact')">Contact</span>
+            </div>
+            <div>
+                <p class="footer-col-title">Follow Us</p>
+                <div class="footer-socials">
+                    <a href="https://facebook.com" target="_blank" class="footer-social-icon" title="Facebook">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" class="footer-social-icon" title="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                    <a href="https://wa.me/233204608631" target="_blank" class="footer-social-icon" title="WhatsApp">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2026 Jonnah's Vintage. All rights reserved.</span>
+            <span class="footer-copy">Made with ♥</span>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== CONTACT PAGE ========== -->
+<div id="page-contact" class="page">
+    <div class="contact-grid">
+        <div class="contact-info">
+            <p style="font-size:0.58rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Get in Touch</p>
+            <h1 class="contact-info-title">We'd love<br>to hear from you.</h1>
+
+            <div class="contact-info-item">
+                <p class="contact-info-label">Location</p>
+                <p class="contact-info-value">Accra, Ghana<br>Available for local pickup</p>
+            </div>
+            <div class="contact-info-item">
+                <p class="contact-info-label">WhatsApp</p>
+                <p class="contact-info-value">+233 20 460 8631<br>Mon – Sat, 9am – 7pm</p>
+            </div>
+            <div class="contact-info-item">
+                <p class="contact-info-label">Email</p>
+                <p class="contact-info-value">hello@jonnahsvintage.com</p>
+            </div>
+
+            <div style="margin-top:2.5rem;">
+                <p style="font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1rem;">Find us on</p>
+                <div class="contact-social">
+                    <a href="https://facebook.com" target="_blank" class="social-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        Facebook
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" class="social-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                        TikTok
+                    </a>
+                    <a href="https://wa.me/233204608631" target="_blank" class="social-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-form-wrap">
+            <div id="form-wrapper">
+                <h2 class="form-title">Send us a message</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input" id="f-first" placeholder="Akua">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input" id="f-last" placeholder="Mensah">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="f-email" placeholder="you@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <input type="text" class="form-input" id="f-subject" placeholder="Order enquiry, custom request...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" id="f-message" placeholder="Tell us what you're looking for..."></textarea>
+                </div>
+                <button class="btn-primary" style="width:100%;text-align:center;justify-content:center;" onclick="submitForm()">Send Message</button>
+            </div>
+            <div id="form-success" class="form-success">
+                <div class="check">✉️</div>
+                <p>Message received!<br>We'll be in touch soon.</p>
+                <br>
+                <button class="btn-outline" onclick="resetForm()">Send another</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">Jonnah's Vintage</div>
+                <p class="footer-tagline">Timeless vintage pieces for the modern soul. Curated with love, worn with intention.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Navigate</p>
+                <span class="footer-link" onclick="showPage('home')">Home</span>
+                <span class="footer-link" onclick="showPage('collection')">Collection</span>
+                <span class="footer-link" onclick="showPage('about')">About</span>
+                <span class="footer-link" onclick="showPage('contact')">Contact</span>
+            </div>
+            <div>
+                <p class="footer-col-title">Follow Us</p>
+                <div class="footer-socials">
+                    <a href="https://facebook.com" target="_blank" class="footer-social-icon" title="Facebook">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" class="footer-social-icon" title="TikTok">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                    <a href="https://wa.me/233204608631" target="_blank" class="footer-social-icon" title="WhatsApp">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span class="footer-copy">© 2026 Jonnah's Vintage. All rights reserved.</span>
+            <span class="footer-copy">Made with ♥</span>
+        </div>
+    </footer>
+</div>
+
+<!-- ========== ADMIN PANEL ========== -->
+<div id="admin-overlay" class="admin-overlay">
+    <div class="admin-modal" id="admin-modal">
+        <div class="admin-header">
+            <span class="admin-title">Admin — Jonnah's Vintage</span>
+            <button class="admin-close" onclick="closeAdminPanel()">✕</button>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="admin-login-screen" class="admin-login">
+            <p class="admin-login-title">Admin Access</p>
+            <p class="admin-login-sub">Enter your passkey to continue</p>
+            <div class="admin-passkey-wrap">
+                <input type="password" id="admin-passkey-input" placeholder="Passkey" onkeydown="if(event.key==='Enter')adminLogin()">
+                <button class="admin-btn-save" onclick="adminLogin()">Enter</button>
+            </div>
+            <p class="admin-login-err" id="admin-login-err"></p>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" style="display:none;">
+            <div class="admin-body">
+
+                <!-- ADD / EDIT FORM -->
+                <p class="admin-section-title" id="admin-form-title">Add New Item</p>
+                <div class="admin-form-grid">
+                    <div class="admin-form-group">
+                        <label class="admin-label">Product Name *</label>
+                        <input type="text" class="admin-input" id="af-name" placeholder="e.g. Vintage Trench Coat" oninput="updatePreview()">
+                    </div>
+                    <div class="admin-form-group">
+                        <label class="admin-label">Price (GH₵) *</label>
+                        <input type="number" class="admin-input" id="af-price" placeholder="e.g. 180" min="0" oninput="updatePreview()">
+                    </div>
+                    <div class="admin-form-group full">
+                        <label class="admin-label">Sizes Available</label>
+                        <div class="size-checks">
+                            <label class="size-check-label"><input type="checkbox" value="XS" class="af-size" onchange="updatePreview()"><span class="size-box">XS</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="S" class="af-size" onchange="updatePreview()"><span class="size-box">S</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="M" class="af-size" onchange="updatePreview()"><span class="size-box">M</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="L" class="af-size" onchange="updatePreview()"><span class="size-box">L</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="XL" class="af-size" onchange="updatePreview()"><span class="size-box">XL</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="XXL" class="af-size" onchange="updatePreview()"><span class="size-box">XXL</span></label>
+                            <label class="size-check-label"><input type="checkbox" value="XXXL" class="af-size" onchange="updatePreview()"><span class="size-box">XXXL</span></label>
+                        </div>
+                    </div>
+                    <div class="admin-form-group full">
+                        <label class="admin-label">Image URLs <span style="font-weight:300;text-transform:none;letter-spacing:0;">(separate multiple with commas)</span></label>
+                        <input type="text" class="admin-input" id="af-images" placeholder="https://... , https://..." oninput="updateImagePreview();updatePreview()">
+                        <div class="img-preview-strip" id="af-img-preview"></div>
+                    </div>
+                    <div class="admin-form-group full">
+                        <label class="admin-label">Description <span style="font-weight:300;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                        <textarea class="admin-textarea" id="af-desc" placeholder="Describe the piece — era, fabric, condition, styling notes..." oninput="updatePreview()"></textarea>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div style="margin-bottom:1.5rem;">
+                    <label class="admin-label" style="display:block;margin-bottom:0.75rem;">Card Preview</label>
+                    <div class="admin-preview-card">
+                        <div style="aspect-ratio:3/4;background:var(--warm);margin-bottom:0.75rem;overflow:hidden;position:relative;">
+                            <img id="ap-img" src="" style="width:100%;height:100%;object-fit:cover;display:none;">
+                            <div id="ap-img-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;">No Image</div>
+                        </div>
+                        <p class="product-name" id="ap-name">Product Name</p>
+                        <p class="product-price" id="ap-price">GH₵ —</p>
+                        <p id="ap-sizes" style="font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;"></p>
+                        <p id="ap-desc-prev" style="font-size:0.72rem;color:var(--muted);line-height:1.6;"></p>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:2.5rem;">
+                    <button class="admin-btn-save" id="admin-save-btn" onclick="adminSaveItem()">Save Item</button>
+                    <button class="admin-btn-cancel" id="admin-cancel-btn" onclick="adminCancelEdit()" style="display:none;">Cancel Edit</button>
+                </div>
+
+                <hr class="admin-divider">
+
+                <!-- PRODUCT LIST -->
+                <p class="admin-section-title">Manage Items (<span id="admin-item-count">0</span>)</p>
+                <div class="admin-product-list" id="admin-product-list">
+                    <p style="font-size:0.7rem;color:var(--muted);">No items yet. Add your first item above.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---- Page Navigation ----
+    const pages = ['home', 'collection', 'about', 'contact'];
+
+    function showPage(name) {
+        pages.forEach(p => {
+            document.getElementById('page-' + p).classList.remove('active');
+            const navEl = document.getElementById('nav-' + p);
+            if (navEl) navEl.classList.remove('active');
+        });
+        document.getElementById('page-' + name).classList.add('active');
+        const activeNav = document.getElementById('nav-' + name);
+        if (activeNav) activeNav.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ---- Mobile Nav ----
+    function openMobileNav() {
+        document.getElementById('mobile-nav').classList.add('open');
+        document.getElementById('overlay').classList.add('show');
+    }
+
+    function closeMobileNav() {
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    // ---- Cart ----
+    let cart = [];
+    let orderMethod = 'Delivery';
+    const WHATSAPP_NUMBER = "233204608631";
+
+    function toggleCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('overlay');
+        const isOpen = sidebar.classList.contains('open');
+        if (isOpen) {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        } else {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+    }
+
+    function closeAll() {
+        document.getElementById('cart-sidebar').classList.remove('open');
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+
+    function setOrderMethod(method) {
+        orderMethod = method;
+        document.getElementById('btn-delivery').classList.toggle('selected', method === 'Delivery');
+        document.getElementById('btn-pickup').classList.toggle('selected', method === 'Pickup');
+    }
+
+    function addToCart(name, price, sizeId) {
+        const sizeSelect = document.getElementById(sizeId);
+        const selectedSize = sizeSelect.value;
+        if (!selectedSize) {
+            showToast('Please select a size first');
+            return;
+        }
+        const existing = cart.find(i => i.name === name && i.size === selectedSize);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ name, price, size: selectedSize, quantity: 1 });
+        }
+        updateCartUI();
+        showToast(name + ' added to bag');
+        if (window.innerWidth > 768) toggleCart();
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById('cart-items');
+        const countEl = document.getElementById('cart-count');
+        const totalEl = document.getElementById('cart-total');
+
+        if (cart.length === 0) {
+            container.innerHTML = '<p class="cart-empty">Your bag is empty</p>';
+        } else {
+            container.innerHTML = cart.map((item, i) => `
+                <div class="cart-item">
+                    <div>
+                        <p class="cart-item-name">${item.name} (${item.size})</p>
+                        <p class="cart-item-details">GH₵ ${item.price} × ${item.quantity} = GH₵ ${item.price * item.quantity}</p>
+                    </div>
+                    <button class="cart-remove" onclick="removeFromCart(${i})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+        countEl.innerText = totalItems;
+        totalEl.innerText = 'GH₵ ' + total;
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function checkoutWhatsApp() {
+        if (cart.length === 0) { showToast('Your bag is empty!'); return; }
+        let msg = `Hello Jonnah's Vintage! I'd like to place an order (*${orderMethod.toUpperCase()}*):%0A%0A`;
+        cart.forEach(item => {
+            msg += `- ${item.name} [Size: ${item.size}] (Qty: ${item.quantity}) - GH₵ ${item.price * item.quantity}%0A`;
+        });
+        const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        msg += `%0A*Total: GH₵ ${total}*%0AMethod: ${orderMethod}%0APlease let me know the next steps. Thank you!`;
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+    }
+
+    // ---- Toast ----
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ---- Contact Form ----
+    async function submitForm() {
+        const first = document.getElementById('f-first').value.trim();
+        const last = document.getElementById('f-last').value.trim();
+        const email = document.getElementById('f-email').value.trim();
+        const subject = document.getElementById('f-subject').value.trim();
+        const message = document.getElementById('f-message').value.trim();
+
+        if (!first || !email || !message) {
+            showToast('Please fill in required fields');
+            return;
+        }
+
+        const submitBtn = document.querySelector('#form-wrapper .btn-primary');
+        submitBtn.textContent = 'Sending...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.disabled = true;
+
+        try {
+            if (window._db) {
+                await window._firestoreAddDoc(
+                    window._firestoreCollection(window._db, 'contact_messages'),
+                    {
+                        firstName: first,
+                        lastName: last,
+                        email: email,
+                        subject: subject,
+                        message: message,
+                        timestamp: window._firestoreTimestamp()
+                    }
+                );
+            }
+        } catch (err) {
+            console.error('Firestore error:', err);
+            // Still show success to user even if DB save fails
+        }
+
+        submitBtn.textContent = 'Send Message';
+        submitBtn.style.opacity = '1';
+        submitBtn.disabled = false;
+
+        document.getElementById('form-wrapper').style.display = 'none';
+        document.getElementById('form-success').classList.add('show');
+    }
+
+    // ===== ADMIN PANEL =====
+    const ADMIN_PASSKEY = 'vintage2026';
+    let adminAuthenticated = false;
+    let adminEditingId = null; // null = adding new, string = Firestore doc ID
+
+    // products array — loaded from Firestore
+    let products = [];
+
+    // ---- Firebase product listener ----
+    window._initProductListener = function() {
+        if (!window._db) return;
+        const colRef = window._firestoreCollection(window._db, 'products');
+        window._firestoreOnSnapshot(colRef, (snapshot) => {
+            products = snapshot.docs.map(d => ({ _fireId: d.id, ...d.data() }));
+            // Sort by a numeric order field if present, else by name
+            products.sort((a, b) => (a.order || 0) - (b.order || 0) || (a.name || '').localeCompare(b.name || ''));
+            renderCollection();
+            renderHomeFeatured();
+            if (adminAuthenticated) renderAdminList();
+        });
+    };
+
+    // Kick off if Firebase already ready (module script ran first)
+    if (window._firebaseReady) {
+        window._initProductListener();
+    }
+
+    function openAdminPanel() {
+        document.getElementById('admin-overlay').classList.add('open');
+        document.getElementById('admin-passkey-input').value = '';
+        document.getElementById('admin-login-err').textContent = '';
+        if (adminAuthenticated) {
+            showAdminDashboard();
+        } else {
+            document.getElementById('admin-login-screen').style.display = 'block';
+            document.getElementById('admin-dashboard').style.display = 'none';
+            setTimeout(() => document.getElementById('admin-passkey-input').focus(), 100);
+        }
+    }
+
+    function closeAdminPanel() {
+        document.getElementById('admin-overlay').classList.remove('open');
+    }
+
+    function adminLogin() {
+        const val = document.getElementById('admin-passkey-input').value;
+        if (val === ADMIN_PASSKEY) {
+            adminAuthenticated = true;
+            showAdminDashboard();
+        } else {
+            document.getElementById('admin-login-err').textContent = 'Incorrect passkey. Try again.';
+            document.getElementById('admin-passkey-input').value = '';
+            document.getElementById('admin-passkey-input').focus();
+        }
+    }
+
+    function showAdminDashboard() {
+        document.getElementById('admin-login-screen').style.display = 'none';
+        document.getElementById('admin-dashboard').style.display = 'block';
+        renderAdminList();
+        adminCancelEdit();
+        // Ensure listener is running
+        if (window._db && !window._productListenerActive) {
+            window._productListenerActive = true;
+            window._initProductListener();
+        }
+    }
+
+    function getFormSizes() {
+        return [...document.querySelectorAll('.af-size:checked')].map(cb => cb.value);
+    }
+
+    function setFormSizes(sizes) {
+        document.querySelectorAll('.af-size').forEach(cb => {
+            cb.checked = sizes.includes(cb.value);
+        });
+    }
+
+    function getImageUrls() {
+        const raw = document.getElementById('af-images').value;
+        return raw.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    function updateImagePreview() {
+        const urls = getImageUrls();
+        const strip = document.getElementById('af-img-preview');
+        strip.innerHTML = urls.map(url =>
+            `<img src="${url}" class="img-thumb" onerror="this.style.display='none'" onload="this.style.display='block'" style="display:none;">`
+        ).join('');
+    }
+
+    function updatePreview() {
+        const name = document.getElementById('af-name').value || 'Product Name';
+        const price = document.getElementById('af-price').value;
+        const sizes = getFormSizes();
+        const desc = document.getElementById('af-desc').value;
+        const urls = getImageUrls();
+
+        document.getElementById('ap-name').textContent = name;
+        document.getElementById('ap-price').textContent = price ? 'GH\u20B5 ' + price : 'GH\u20B5 \u2014';
+        document.getElementById('ap-sizes').textContent = sizes.length ? sizes.join('  ') : '';
+        document.getElementById('ap-desc-prev').textContent = desc;
+
+        const img = document.getElementById('ap-img');
+        const placeholder = document.getElementById('ap-img-placeholder');
+        if (urls.length > 0) {
+            img.src = urls[0];
+            img.style.display = 'block';
+            placeholder.style.display = 'none';
+        } else {
+            img.style.display = 'none';
+            placeholder.style.display = 'flex';
+        }
+    }
+
+    async function adminSaveItem() {
+        const name = document.getElementById('af-name').value.trim();
+        const price = parseFloat(document.getElementById('af-price').value);
+        if (!name) { showToast('Product name is required'); return; }
+        if (!price || price <= 0) { showToast('Valid price is required'); return; }
+
+        const sizes = getFormSizes();
+        const images = getImageUrls();
+        const desc = document.getElementById('af-desc').value.trim();
+        const badge = document.getElementById('af-badge') ? document.getElementById('af-badge').value.trim() : '';
+
+        const saveBtn = document.getElementById('admin-save-btn');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving…';
+
+        if (!window._db) {
+            showToast('Firebase not connected');
+            saveBtn.disabled = false;
+            saveBtn.textContent = adminEditingId ? 'Update Item' : 'Save Item';
+            return;
+        }
+
+        try {
+            if (adminEditingId) {
+                // Update existing doc
+                const docRef = window._firestoreDoc(window._db, 'products', adminEditingId);
+                await window._firestoreSetDoc(docRef, { name, price, sizes, images, description: desc, badge }, { merge: true });
+                showToast('Item updated');
+            } else {
+                // Add new doc
+                await window._firestoreAddDoc(
+                    window._firestoreCollection(window._db, 'products'),
+                    { name, price, sizes, images, description: desc, badge, createdAt: window._firestoreTimestamp() }
+                );
+                showToast('Item added');
+            }
+            adminCancelEdit();
+        } catch (err) {
+            console.error('Firestore save error:', err);
+            showToast('Save failed: ' + err.message);
+        }
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = adminEditingId ? 'Update Item' : 'Save Item';
+    }
+
+    function adminCancelEdit() {
+        adminEditingId = null;
+        document.getElementById('af-name').value = '';
+        document.getElementById('af-price').value = '';
+        document.getElementById('af-images').value = '';
+        document.getElementById('af-desc').value = '';
+        document.getElementById('af-img-preview').innerHTML = '';
+        setFormSizes([]);
+        document.getElementById('admin-form-title').textContent = 'Add New Item';
+        document.getElementById('admin-save-btn').textContent = 'Save Item';
+        document.getElementById('admin-cancel-btn').style.display = 'none';
+        updatePreview();
+    }
+
+    function adminEditItem(fireId) {
+        const p = products.find(x => x._fireId === fireId);
+        if (!p) return;
+        adminEditingId = fireId;
+        document.getElementById('af-name').value = p.name;
+        document.getElementById('af-price').value = p.price;
+        document.getElementById('af-images').value = (p.images || []).join(', ');
+        document.getElementById('af-desc').value = p.description || '';
+        setFormSizes(p.sizes || []);
+        document.getElementById('admin-form-title').textContent = 'Editing: ' + p.name;
+        document.getElementById('admin-save-btn').textContent = 'Update Item';
+        document.getElementById('admin-cancel-btn').style.display = 'inline-block';
+        updateImagePreview();
+        updatePreview();
+        document.getElementById('admin-modal').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function adminDeleteItem(fireId) {
+        const p = products.find(x => x._fireId === fireId);
+        if (!p) return;
+        if (!confirm('Delete "' + p.name + '"? This cannot be undone.')) return;
+        if (!window._db) { showToast('Firebase not connected'); return; }
+        try {
+            await window._firestoreDeleteDoc(window._firestoreDoc(window._db, 'products', fireId));
+            if (adminEditingId === fireId) adminCancelEdit();
+            showToast('Item deleted');
+        } catch (err) {
+            console.error('Firestore delete error:', err);
+            showToast('Delete failed: ' + err.message);
+        }
+    }
+
+    function renderAdminList() {
+        const list = document.getElementById('admin-product-list');
+        document.getElementById('admin-item-count').textContent = products.length;
+        if (products.length === 0) {
+            list.innerHTML = '<p style="font-size:0.7rem;color:var(--muted);">No items yet. Add your first item above.</p>';
+            return;
+        }
+        list.innerHTML = products.map((p) => {
+            const thumb = p.images && p.images[0] ? p.images[0] : '';
+            const fid = p._fireId;
+            return `<div class="admin-product-row">
+                ${thumb ? `<img src="${thumb}" class="admin-product-thumb" onerror="this.style.opacity='0.3'">` : `<div class="admin-product-thumb" style="background:var(--warm);"></div>`}
+                <div class="admin-product-info">
+                    <p class="admin-product-name">${p.name}</p>
+                    <p class="admin-product-meta">GH\u20B5 ${p.price} &nbsp;|&nbsp; ${p.sizes && p.sizes.length ? p.sizes.join(', ') : 'No sizes'}</p>
+                </div>
+                <div class="admin-row-actions">
+                    <button class="admin-btn-edit" onclick="adminEditItem('${fid}')">Edit</button>
+                    <button class="admin-btn-delete" onclick="adminDeleteItem('${fid}')">Delete</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderCollection() {
+        const grid = document.getElementById('products-grid');
+        if (!grid) return;
+        if (products.length === 0) {
+            grid.innerHTML = '<p style="font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;padding:2rem 0;">Loading collection…</p>';
+            return;
+        }
+        grid.innerHTML = products.map((p, i) => {
+            const img = p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=600';
+            const sizes = p.sizes && p.sizes.length ? p.sizes : [];
+            const sizeId = 'size-prod-' + p.id;
+            return `<div class="product-card">
+                <div class="product-img-wrap">
+                    <img src="${img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">
+                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                </div>
+                <p class="product-name">${p.name}</p>
+                <p class="product-price">GH\u20B5 ${p.price}</p>
+                ${p.description ? `<p style="font-size:0.72rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;">${p.description}</p>` : ''}
+                <div class="product-controls">
+                    ${sizes.length ? `<select id="${sizeId}">
+                        <option value="">Select Size</option>
+                        ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+                    </select>` : `<select id="${sizeId}"><option value="">One Size</option></select>`}
+                    <button class="add-btn" onclick="addToCart('${p.name.replace(/'/g,"\\'")}', ${p.price}, '${sizeId}')">Add to Bag</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function renderHomeFeatured() {
+        const grid = document.getElementById('home-featured-grid');
+        if (!grid) return;
+        const featured = products.slice(0, 4);
+        grid.innerHTML = featured.map(p => {
+            const img = p.images && p.images[0] ? p.images[0] : 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=400';
+            return `<div class="group">
+                <div class="bg-stone-200 aspect-[3/4] overflow-hidden rounded-sm">
+                    <img src="${img}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="mt-4 text-center">
+                    <h3 class="text-[10px] uppercase tracking-widest font-medium">${p.name}</h3>
+                    <p class="text-xs text-stone-500 mt-1">$${p.price}.00</p>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // Close admin if clicking outside the modal
+    document.getElementById('admin-overlay').addEventListener('click', function(e) {
+        if (e.target === this) closeAdminPanel();
+    });
+
+    // Initial render (shows loading state; Firestore listener will populate data)
+    renderCollection();
+    renderHomeFeatured();
+
+    function resetForm() {
+        document.getElementById('f-first').value = '';
+        document.getElementById('f-last').value = '';
+        document.getElementById('f-email').value = '';
+        document.getElementById('f-subject').value = '';
+        document.getElementById('f-message').value = '';
+        document.getElementById('form-wrapper').style.display = 'block';
+        document.getElementById('form-success').classList.remove('show');
+    }
+</script>
+</body>
+</html>
